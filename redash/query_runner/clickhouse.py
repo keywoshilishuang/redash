@@ -109,7 +109,7 @@ class ClickHouse(BaseSQLQueryRunner):
             return TYPE_STRING
 
     def _clickhouse_query(self, query):
-        print "stevensli test."
+        print "stevensli test 1111111111111111111111112222333333333333333."
         query += '\nFORMAT JSON'
         result = self._send_query(query)
         columns = []
@@ -144,8 +144,8 @@ class ClickHouse(BaseSQLQueryRunner):
         return {'columns': columns, 'rows': rows}
 
     def run_query(self, query, user):
-        logger.info("Clickhouse is about to execute query: %s", query)
-        logger.info("stevensli test.")
+        logger.error("Clickhouse is about to execute query: %s", query)
+        logger.error("stevensli test 111111111111111111111111.")
         if query == "":
             json_data = None
             error = "Query is empty"

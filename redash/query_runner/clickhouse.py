@@ -144,7 +144,8 @@ class ClickHouse(BaseSQLQueryRunner):
         return {'columns': columns, 'rows': rows}
 
     def run_query(self, query, user):
-        logger.debug("Clickhouse is about to execute query: %s", query)
+        logger.info("Clickhouse is about to execute query: %s", query)
+        logger.info("stevensli test.")
         if query == "":
             json_data = None
             error = "Query is empty"

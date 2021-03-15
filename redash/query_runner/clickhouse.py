@@ -109,6 +109,7 @@ class ClickHouse(BaseSQLQueryRunner):
             return TYPE_STRING
 
     def _clickhouse_query(self, query):
+        print "stevensli test."
         query += '\nFORMAT JSON'
         result = self._send_query(query)
         columns = []

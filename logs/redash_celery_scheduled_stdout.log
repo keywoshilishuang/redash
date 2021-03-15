@@ -1,0 +1,36 @@
+sed: can't read .env: No such file or directory
+/usr/local/virtualenvs/redash/lib/python2.7/site-packages/celery/platforms.py:801: RuntimeWarning: You're running the worker with superuser privileges: this is
+absolutely not recommended!
+
+Please specify a different user using the --uid option.
+
+User information: uid=0 euid=0 gid=0 egid=0
+
+  uid=uid, euid=euid, gid=gid, egid=egid,
+
+worker: Warm shutdown (MainProcess)
+ 
+ -------------- celery@VM_240_212_centos v4.3.0 (rhubarb)
+---- **** ----- 
+--- * ***  * -- Linux-3.10.107-1-tlinux2_kvm_guest-0049-x86_64-with-centos-7.2-Final 2021-03-15 20:11:56
+-- * - **** --- 
+- ** ---------- [config]
+- ** ---------- .> app:         redash:0x7f2f63428ad0
+- ** ---------- .> transport:   redis://localhost:6379/0
+- ** ---------- .> results:     redis://localhost:6379/0
+- *** --- * --- .> concurrency: 2 (prefork)
+-- ******* ---- .> task events: OFF (enable -E to monitor tasks in this worker)
+--- ***** ----- 
+ -------------- [queues]
+                .> scheduled_queries exchange=scheduled_queries(direct) key=scheduled_queries
+                
+
+sed: can't read .env: No such file or directory
+/usr/local/virtualenvs/redash/lib/python2.7/site-packages/celery/platforms.py:801: RuntimeWarning: You're running the worker with superuser privileges: this is
+absolutely not recommended!
+
+Please specify a different user using the --uid option.
+
+User information: uid=0 euid=0 gid=0 egid=0
+
+  uid=uid, euid=euid, gid=gid, egid=egid,

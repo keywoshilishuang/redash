@@ -1,0 +1,4 @@
+0000000000000000000000000000000000000000 a5ec506b6073c96ec9ee59a9c4dea0f38d0c754a alexcqtan <alexcqtan@tencent.com> 1615800655 +0800	clone: from https://github.com/getredash/redash.git
+a5ec506b6073c96ec9ee59a9c4dea0f38d0c754a a16f551e22c6288df6f067aa12caa5afd9a8f1dd alexcqtan <alexcqtan@tencent.com> 1615800669 +0800	checkout: moving from master to v8.0.0
+a16f551e22c6288df6f067aa12caa5afd9a8f1dd a5ec506b6073c96ec9ee59a9c4dea0f38d0c754a alexcqtan <alexcqtan@tencent.com> 1615800689 +0800	checkout: moving from a16f551e22c6288df6f067aa12caa5afd9a8f1dd to master
+a5ec506b6073c96ec9ee59a9c4dea0f38d0c754a a16f551e22c6288df6f067aa12caa5afd9a8f1dd alexcqtan <alexcqtan@tencent.com> 1615800756 +0800	checkout: moving from master to localredash

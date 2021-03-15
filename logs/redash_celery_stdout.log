@@ -1,0 +1,64 @@
+sed: can't read .env: No such file or directory
+/usr/local/virtualenvs/redash/lib/python2.7/site-packages/celery/platforms.py:801: RuntimeWarning: You're running the worker with superuser privileges: this is
+absolutely not recommended!
+
+Please specify a different user using the --uid option.
+
+User information: uid=0 euid=0 gid=0 egid=0
+
+  uid=uid, euid=euid, gid=gid, egid=egid,
+
+worker: Warm shutdown (MainProcess)
+
+worker: Warm shutdown (MainProcess)
+ 
+ -------------- celery@VM_240_212_centos v4.3.0 (rhubarb)
+---- **** ----- 
+--- * ***  * -- Linux-3.10.107-1-tlinux2_kvm_guest-0049-x86_64-with-centos-7.2-Final 2021-03-15 20:11:56
+-- * - **** --- 
+- ** ---------- [config]
+- ** ---------- .> app:         redash:0x7f35824e8a90
+- ** ---------- .> transport:   redis://localhost:6379/0
+- ** ---------- .> results:     redis://localhost:6379/0
+- *** --- * --- .> concurrency: 2 (prefork)
+-- ******* ---- .> task events: OFF (enable -E to monitor tasks in this worker)
+--- ***** ----- 
+ -------------- [queues]
+                .> celery           exchange=celery(direct) key=celery
+                .> queries          exchange=queries(direct) key=queries
+
+sed: can't read .env: No such file or directory
+/usr/local/virtualenvs/redash/lib/python2.7/site-packages/celery/platforms.py:801: RuntimeWarning: You're running the worker with superuser privileges: this is
+absolutely not recommended!
+
+Please specify a different user using the --uid option.
+
+User information: uid=0 euid=0 gid=0 egid=0
+
+  uid=uid, euid=euid, gid=gid, egid=egid,
+[2021-03-15 20:15:15,083][PID:18638][ERROR][ForkPoolWorker-3] Task redash.tasks.execute_query[aa7e16e2-13c4-41e2-8556-dee36cd5f06c] raised unexpected: QueryExecutionError(u"line 1:182: mismatched input 'databases'. Expecting: 'CATALOGS', 'COLUMNS', 'CREATE', 'CURRENT', 'FUNCTIONS', 'GRANTS', 'ROLE', 'ROLES', 'SCHEMAS', 'SESSION', 'STATS', 'TABLES'",)
+Traceback (most recent call last):
+  File "/usr/local/virtualenvs/redash/lib/python2.7/site-packages/celery/app/trace.py", line 385, in trace_task
+    R = retval = fun(*args, **kwargs)
+  File "/home/stevensli/redash/redash/worker.py", line 84, in __call__
+    return TaskBase.__call__(self, *args, **kwargs)
+  File "/usr/local/virtualenvs/redash/lib/python2.7/site-packages/celery/app/trace.py", line 648, in __protected_call__
+    return self.run(*args, **kwargs)
+  File "/home/stevensli/redash/redash/tasks/queries.py", line 436, in execute_query
+    scheduled_query).run()
+  File "/home/stevensli/redash/redash/tasks/queries.py", line 382, in run
+    raise result
+QueryExecutionError: line 1:182: mismatched input 'databases'. Expecting: 'CATALOGS', 'COLUMNS', 'CREATE', 'CURRENT', 'FUNCTIONS', 'GRANTS', 'ROLE', 'ROLES', 'SCHEMAS', 'SESSION', 'STATS', 'TABLES'
+[2021-03-15 20:17:11,861][PID:19039][ERROR][ForkPoolWorker-6] Task redash.tasks.execute_query[ad7c813a-10a4-479a-af1a-583332491991] raised unexpected: QueryExecutionError(u"line 1:182: mismatched input 'databases'. Expecting: 'CATALOGS', 'COLUMNS', 'CREATE', 'CURRENT', 'FUNCTIONS', 'GRANTS', 'ROLE', 'ROLES', 'SCHEMAS', 'SESSION', 'STATS', 'TABLES'",)
+Traceback (most recent call last):
+  File "/usr/local/virtualenvs/redash/lib/python2.7/site-packages/celery/app/trace.py", line 385, in trace_task
+    R = retval = fun(*args, **kwargs)
+  File "/home/stevensli/redash/redash/worker.py", line 84, in __call__
+    return TaskBase.__call__(self, *args, **kwargs)
+  File "/usr/local/virtualenvs/redash/lib/python2.7/site-packages/celery/app/trace.py", line 648, in __protected_call__
+    return self.run(*args, **kwargs)
+  File "/home/stevensli/redash/redash/tasks/queries.py", line 436, in execute_query
+    scheduled_query).run()
+  File "/home/stevensli/redash/redash/tasks/queries.py", line 382, in run
+    raise result
+QueryExecutionError: line 1:182: mismatched input 'databases'. Expecting: 'CATALOGS', 'COLUMNS', 'CREATE', 'CURRENT', 'FUNCTIONS', 'GRANTS', 'ROLE', 'ROLES', 'SCHEMAS', 'SESSION', 'STATS', 'TABLES'

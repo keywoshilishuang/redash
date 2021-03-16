@@ -199,16 +199,20 @@ class dlc_executor:
 
     def resultProcess(self):
         task = self.task_Info
+        columns = []
+        rows = []
         if len(task.DataSet) != 0:
             data = json.loads(task.DataSet)
 
-            columns = []
             for cName in data["Schema"]:
                 columns.append({'name': cName, 'friendly_name': cName, 'type': "string"})
 
             rows = data["Data"]
+        else:
+            columns.append({'name': "OutputMessage", 'friendly_name': "OutputMessage", 'type': "string"})
+            rows.append({"OutputMessage":task.Error})
 
-            return {'columns': columns, 'rows': rows}
+        return {'columns': columns, 'rows': rows}
 
 
 register(DLC)

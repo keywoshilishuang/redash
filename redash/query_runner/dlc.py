@@ -213,7 +213,7 @@ class dlc_executor:
 
             data = task.Error
             data = data.replace("\n","<br/>")
-            rows.append({"OutputMessage":task.Error})
+            rows.append({"OutputMessage":data})
 
         return {'columns': columns, 'rows': rows}
 

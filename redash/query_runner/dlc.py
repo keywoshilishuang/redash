@@ -74,6 +74,7 @@ class DLC(BaseSQLQueryRunner):
         return data, error
 
     def _dlc_query(self, query, user):
+        logger.error("dlc is about to execute query: %s user:%s", query, user)
 
         dlcPioneer = dlc_executor(
             self.configuration.get('SecretId', 'default'),
@@ -105,6 +106,8 @@ class DLC(BaseSQLQueryRunner):
             print(resp.to_json_string())
 
         except TencentCloudSDKException as err:
+            logger.error("dlc_query err.")
+            logger.exception(err)
             print(err)
 
 

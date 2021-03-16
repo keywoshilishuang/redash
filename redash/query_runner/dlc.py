@@ -65,8 +65,10 @@ class DLC(BaseSQLQueryRunner):
         try:
             # q = self._clickhouse_query(query)
             # data = json_dumps(q)
-            self._dlc_query(query, user)
-            data = '{"rows": [{"name": "_temporary_and_external_tables"}, {"name": "default"}, {"name": "stevensli"}, {"name": "system"}], "columns": [{"type": "string", "friendly_name": "name", "name": "name"}]}'
+            # data = '{"rows": [{"name": "_temporary_and_external_tables"}, {"name": "default"}, {"name": "stevensli"}, {"name": "system"}], "columns": [{"type": "string", "friendly_name": "name", "name": "name"}]}'
+
+            result = self._dlc_query(query, user)
+            data = json_dumps(result)
             error = None
         except Exception as e:
             data = None
@@ -85,9 +87,7 @@ class DLC(BaseSQLQueryRunner):
         )
 
         try:
-            taskId = dlcPioneer.createTask(query, user)
-
-
+            return dlcPioneer.execute(query)
 
         except TencentCloudSDKException as err:
             logger.error("dlc_query err.")
@@ -121,6 +121,8 @@ class dlc_executor:
         self.task_id = self.createTask(query)
 
         self._poll(self.task_id)
+
+        return self.resultProcess()
 
 
     def createTask(self, query):
@@ -199,11 +201,13 @@ class dlc_executor:
         if len(task.DataSet) != 0:
             data = json.loads(task.DataSet)
 
+            columns = []
+            for cName in data["Schema"]:
+                columns.append({'name': cName, 'friendly_name': cName, 'type': "string"})
 
+            rows = data["Data"]
 
-
-
-
+            return {'columns': columns, 'rows': rows}
 
 
 register(DLC)

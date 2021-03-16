@@ -43,7 +43,15 @@ class DLC(BaseSQLQueryRunner):
 
     @classmethod
     def type(cls):
-        return "clickhouse"
+        return "DLC"
+
+    @classmethod
+    def name(cls):
+        return "DLC"
+
+    @classmethod
+    def enabled(cls):
+        return True
 
     def run_query(self, query, user):
         logger.error("DLC is about to execute query: %s", query)
@@ -55,6 +63,7 @@ class DLC(BaseSQLQueryRunner):
         try:
             # q = self._clickhouse_query(query)
             # data = json_dumps(q)
+            data = '{"rows": [{"name": "_temporary_and_external_tables"}, {"name": "default"}, {"name": "stevensli"}, {"name": "system"}], "columns": [{"type": "string", "friendly_name": "name", "name": "name"}]}'
             error = None
         except Exception as e:
             data = None

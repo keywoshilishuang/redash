@@ -158,7 +158,7 @@ class dlc_executor:
         try:
             while True:
                 taskInfo = self.describeTask(taskId)
-                if taskInfo.state in [
+                if taskInfo.State in [
                     dlc_executor.STATE_SUCCEEDED,
                     dlc_executor.STATE_FAILED,
                 ]:

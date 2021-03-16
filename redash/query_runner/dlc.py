@@ -128,7 +128,7 @@ class dlc_executor:
 
     def createTask(self, query):
         try:
-            query = query[query.rindex("*/") + 2:]
+            query = query.split("*/")[-1]
             query = query.strip()
             sql = base64.b64encode(query)
             task = {

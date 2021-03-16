@@ -211,8 +211,8 @@ class dlc_executor:
         else:
             columns.append({'name': "OutputMessage", 'friendly_name': "OutputMessage", 'type': "string"})
 
-            data = task.Error
-            data = data.replace("\n","<br/>")
+            data = task.Error.replace("\n","<br/>")
+            data = data.replace(" ", "&nbsp;")
             rows.append({"OutputMessage":data})
 
         return {'columns': columns, 'rows': rows}

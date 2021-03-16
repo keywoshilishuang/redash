@@ -212,7 +212,6 @@ class dlc_executor:
             columns.append({'name': "OutputMessage", 'friendly_name': "OutputMessage", 'type': "string"})
 
             data = task.Error.replace("\n","<br/>")
-            # todo 空格的间隔不同
             data = data.replace(" ", "&nbsp;")
             rows.append({"OutputMessage":data})
 

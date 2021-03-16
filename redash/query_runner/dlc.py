@@ -17,7 +17,7 @@ from tencentcloud.dlc.v20210125 import dlc_client, models
 logger = logging.getLogger(__name__)
 
 class DLC(BaseSQLQueryRunner):
-    noop_query = "SELECT 1"
+    noop_query = "show databases"
 
     @classmethod
     def configuration_schema(cls):
@@ -207,6 +207,7 @@ class dlc_executor:
             for cName in data["Schema"]:
                 columns.append({'name': cName, 'friendly_name': cName, 'type': "string"})
 
+            # todo
             rows = data["Data"]
         elif len(task.Error) != 0:
             columns.append({'name': "OutputMessage", 'friendly_name': "OutputMessage", 'type': "string"})

@@ -39,8 +39,8 @@ class DLC(BaseSQLQueryRunner):
                     "title": "Database Name"
                 }
             },
-            "required": ["dbname"],
-            "secret": ["password"]
+            "required": ["dbname","SecretId","SecretKey"],
+            "secret": ["SecretKey"]
         }
 
     @classmethod

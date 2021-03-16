@@ -1,6 +1,7 @@
 import logging
 import os
 import threading
+import json
 
 from redash.query_runner import TYPE_FLOAT, TYPE_INTEGER, TYPE_DATETIME, TYPE_STRING, TYPE_DATE, BaseSQLQueryRunner, InterruptException, register
 from redash.settings import parse_boolean
@@ -191,6 +192,9 @@ class Mysql(BaseSQLQueryRunner):
                 if cursor.description is not None:
                     data = cursor.fetchall()
                     desc = cursor.description
+
+            descStr = json.dumps(desc)
+            logger.error("mysql query get desc is %s and type is:%s", descStr, desc.type())
 
             # TODO - very similar to pg.py
             if desc is not None:

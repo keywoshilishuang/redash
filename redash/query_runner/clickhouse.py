@@ -153,6 +153,7 @@ class ClickHouse(BaseSQLQueryRunner):
         try:
             q = self._clickhouse_query(query)
             data = json_dumps(q)
+            logger.error("Clickhouse run query result is: %s", data)
             error = None
         except Exception as e:
             data = None

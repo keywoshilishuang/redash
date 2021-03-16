@@ -208,12 +208,20 @@ class dlc_executor:
                 columns.append({'name': cName, 'friendly_name': cName, 'type': "string"})
 
             rows = data["Data"]
-        else:
+        elif len(task.Error) != 0:
             columns.append({'name': "OutputMessage", 'friendly_name': "OutputMessage", 'type': "string"})
 
             data = task.Error.replace("\n","<br/>")
+            # todo 空格的间隔不同
             data = data.replace(" ", "&nbsp;")
             rows.append({"OutputMessage":data})
+
+        else:
+            columns.append({'name': "OutputMessage", 'friendly_name': "OutputMessage", 'type': "string"})
+
+            data = task.RowAffectInfo.replace("\n", "<br/>")
+            data = data.replace(" ", "&nbsp;")
+            rows.append({"OutputMessage": data})
 
         return {'columns': columns, 'rows': rows}
 

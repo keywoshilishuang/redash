@@ -163,6 +163,7 @@ class dlc_executor:
                     dlc_executor.STATE_FAILED,
                 ]:
                     self.task_Info = taskInfo
+                    return
                 else:
                     time.sleep(self.poll_interval)
 

@@ -211,6 +211,7 @@ class DataSourceTestResource(BaseResource):
 
         response = {}
         try:
+            logging.error("DataSourceTestResource 1")
             data_source.query_runner.test_connection()
         except Exception as e:
             response = {"message": text_type(e), "ok": False}

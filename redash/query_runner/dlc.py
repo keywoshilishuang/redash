@@ -16,6 +16,7 @@ from tencentcloud.dlc.v20210125 import dlc_client, models
 
 logger = logging.getLogger(__name__)
 
+
 class DLC(BaseSQLQueryRunner):
     noop_query = "show databases"
 

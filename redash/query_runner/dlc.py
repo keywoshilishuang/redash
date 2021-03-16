@@ -4,6 +4,7 @@ import re
 import requests
 import json
 import base64
+import time
 
 from redash.query_runner import *
 from redash.utils import json_dumps, json_loads
@@ -79,31 +80,14 @@ class DLC(BaseSQLQueryRunner):
         dlcPioneer = dlc_executor(
             self.configuration.get('SecretId', 'default'),
             self.configuration.get('SecretKey', 'default'),
-            self.configuration.get('Region', 'default'),
+            self.configuration.get('Region', 'ap-beijing'),
             self.configuration.get('dbname', 'default'),
         )
 
         try:
-            query = query[query.rindex("*/") + 2:]
-            query = query.strip()
+            taskId = dlcPioneer.createTask(query, user)
 
-            sql = base64.b64encode(query)
 
-            task = {
-                "SQLTask":{
-                    "SQL":sql
-                }
-            }
-
-            req = models.CreateTaskRequest()
-            params = {
-                "DatabaseName": dlcPioneer.database,
-                "Task": task
-            }
-            req.from_json_string(json.dumps(params))
-
-            resp = dlcPioneer.client.CreateTask(req)
-            print(resp.to_json_string())
 
         except TencentCloudSDKException as err:
             logger.error("dlc_query err.")
@@ -112,6 +96,12 @@ class DLC(BaseSQLQueryRunner):
 
 
 class dlc_executor:
+    STATE_INIT = 0
+    STATE_RUNNING = 1
+    STATE_SUCCEEDED = 2
+    STATE_WRITING = 3
+    STATE_FAILED = -1
+
     def __init__(self, id, key, region, db):
         self.cred = credential.Credential(str(id), str(key))
         httpProfile = HttpProfile()
@@ -121,10 +111,99 @@ class dlc_executor:
         clientProfile.httpProfile = httpProfile
         self.client = dlc_client.DlcClient(self.cred, region, clientProfile)
         self.database = db
+        self.poll_interval = 1
 
-    def createTask(self, query, user):
-        req = models.CreateTaskRequest()
-        # params
+    def _reset_state(self):
+        self.task_id = None
+
+    def execute(self, query):
+        self._reset_state()
+        self.task_id = self.createTask(query)
+
+        self._poll(self.task_id)
+
+
+    def createTask(self, query):
+        try:
+            query = query[query.rindex("*/") + 2:]
+            query = query.strip()
+            sql = base64.b64encode(query)
+            task = {
+                "SQLTask": {
+                    "SQL": sql
+                }
+            }
+
+            req = models.CreateTaskRequest()
+            params = {
+                "DatabaseName": self.database,
+                "Task": task
+            }
+            req.from_json_string(json.dumps(params))
+
+            resp = self.client.CreateTask(req)
+            print(resp.to_json_string())
+
+            return resp.TaskId
+
+        except TencentCloudSDKException as err:
+            logger.error("dlc_query err.")
+            logger.exception(err)
+            print(err)
+
+
+    def _poll(self, taskId):
+        try:
+            while True:
+                taskInfo = self.describeTask(taskId)
+                if taskInfo.state in [
+                    dlc_executor.STATE_SUCCEEDED,
+                    dlc_executor.STATE_FAILED,
+                ]:
+                    self.task_Info = taskInfo
+                else:
+                    time.sleep(self.poll_interval)
+
+        except Exception as e:
+            raise e
+
+
+    def describeTask(self, taskId):
+        try:
+            filter = {
+                "Name":"task-id",
+                "Values":[taskId]
+            }
+
+            filters = [filter]
+
+
+            req = models.DescribeTasksRequest()
+            params = {
+                "Filters": filters,
+            }
+            req.from_json_string(json.dumps(params))
+
+            resp = self.client.DescribeTasks(req)
+            print(resp.to_json_string())
+
+            return resp.TaskList[0]
+
+        except TencentCloudSDKException as err:
+            logger.error("dlc_query err.")
+            logger.exception(err)
+            print(err)
+
+    def resultProcess(self):
+        task = self.task_Info
+        if len(task.DataSet) != 0:
+            data = json.loads(task.DataSet)
+
+
+
+
+
+
 
 
 register(DLC)

@@ -119,6 +119,7 @@ class ClickHouse(BaseSQLQueryRunner):
         for r in result['meta']:
             column_name = r['name']
             column_type = self._define_column_type(r['type'])
+            logger.error("_clickhouse_query column type for %s is:%s", column_name, column_type)
 
             if r['type'] in ('Int64', 'UInt64', 'Nullable(Int64)', 'Nullable(UInt64)'):
                 columns_int64.append(column_name)

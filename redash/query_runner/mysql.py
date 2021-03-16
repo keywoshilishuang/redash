@@ -193,8 +193,12 @@ class Mysql(BaseSQLQueryRunner):
                     data = cursor.fetchall()
                     desc = cursor.description
 
-            descStr = json.dumps(desc)
-            logger.error("mysql query get desc is %s and type is:%s", descStr, desc.type())
+            # descStr = json.dumps(desc)
+            print "mysql query get desc is"
+            print desc
+            # print desc.type()
+            print type(desc)
+            # logger.error("mysql query get desc is %s and type is:%s", desc, desc.type())
 
             # TODO - very similar to pg.py
             if desc is not None:

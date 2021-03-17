@@ -2,6 +2,7 @@ import logging
 import os
 import threading
 import json
+import time
 
 from redash.query_runner import TYPE_FLOAT, TYPE_INTEGER, TYPE_DATETIME, TYPE_STRING, TYPE_DATE, BaseSQLQueryRunner, InterruptException, register
 from redash.settings import parse_boolean
@@ -162,6 +163,7 @@ class Mysql(BaseSQLQueryRunner):
         r = Result()
         t = None
         try:
+            time.sleep(10)
             connection = self._connection()
             thread_id = connection.thread_id()
             t = threading.Thread(target=self._run_query,

@@ -277,6 +277,9 @@ class dlc_executor:
                 for column in table_info.Columns:
                     schema[table_name]['columns'].append(column.Name)
 
+            schemaStr = json.dumps(schema)
+            logger.error("dlc get_schema result is:%s", schemaStr)
+
             return schema.values()
 
         except Exception as err:

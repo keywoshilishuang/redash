@@ -227,7 +227,7 @@ class dlc_executor:
             req.from_json_string(json.dumps(params))
 
             resp = self.client.DescribeTables(req)
-            print(resp.to_json_string())
+            # print(resp.to_json_string())
 
             return resp.TableList
 
@@ -246,7 +246,7 @@ class dlc_executor:
             req.from_json_string(json.dumps(params))
 
             resp = self.client.DescribeTable(req)
-            print(resp.to_json_string())
+            # print(resp.to_json_string())
 
             return resp.Table
 

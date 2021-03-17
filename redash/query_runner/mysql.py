@@ -141,8 +141,10 @@ class Mysql(BaseSQLQueryRunner):
         if error is not None:
             raise Exception("Failed getting schema.")
 
+        logger.error("mysql get tables result is:%s", results)
         results = json_loads(results)
 
+        logger.error("mysql get tables result is:%s",results)
         for row in results['rows']:
             if row['table_schema'] != self.configuration['db']:
                 table_name = u'{}.{}'.format(row['table_schema'],

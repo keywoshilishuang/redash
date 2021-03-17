@@ -84,6 +84,7 @@ class DLC(BaseSQLQueryRunner):
             error = unicode(e)
         return data, error
 
+
     def _dlc_query(self, query, user):
         logger.error("dlc is about to execute query: %s user:%s", query, user)
 
@@ -132,7 +133,6 @@ class dlc_executor:
 
         return self.resultProcess()
 
-
     def createTask(self, query):
         try:
             query = query.split("*/")[-1]
@@ -157,7 +157,7 @@ class dlc_executor:
             return resp.TaskId
 
         except TencentCloudSDKException as err:
-            logger.error("dlc_query err.")
+            logger.error("dlc_query TencentCloudSDK err.")
             logger.exception(err)
             print(err)
 
@@ -177,7 +177,6 @@ class dlc_executor:
 
         except Exception as e:
             raise e
-
 
     def describeTask(self, taskId):
         try:
@@ -204,6 +203,56 @@ class dlc_executor:
             logger.error("dlc_query err.")
             logger.exception(err)
             print(err)
+
+    def describeTables(self):
+        try:
+            req = models.DescribeTablesRequest()
+            params = {
+                "DatabaseName": self.database,
+                "Limit":100,
+                "Offset":0,
+            }
+            req.from_json_string(json.dumps(params))
+
+            resp = self.client.DescribeTables(req)
+            print(resp.to_json_string())
+
+            return resp.TableList
+
+        except TencentCloudSDKException as err:
+            logger.error("dlc_query err.")
+            logger.exception(err)
+            print(err)
+
+    def describeTable(self, tableName):
+        try:
+            req = models.DescribeTableRequest()
+            params = {
+                "DatabaseName": self.database,
+                "TableName":tableName,
+            }
+            req.from_json_string(json.dumps(params))
+
+            resp = self.client.DescribeTable(req)
+            print(resp.to_json_string())
+
+            return resp.Table
+
+        except TencentCloudSDKException as err:
+            logger.error("dlc_query err.")
+            logger.exception(err)
+            print(err)
+
+    def poll_schema_info(self):
+        try:
+            tableList = self.describeTables()
+
+            for table in tableList:
+                tableInfo = self.describeTable(table)
+
+
+        except Exception as err:
+            raise Exception("Dlc Failed getting schema %s",err)
 
     def resultProcess(self):
         task = self.task_Info

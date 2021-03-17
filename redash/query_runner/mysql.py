@@ -172,6 +172,7 @@ class Mysql(BaseSQLQueryRunner):
             while not ev.wait(1):
                 pass
         except (KeyboardInterrupt, InterruptException):
+            logger.error("MySQL Query cancelled by user.")
             error = self._cancel(thread_id)
             t.join()
             r.json_data = None

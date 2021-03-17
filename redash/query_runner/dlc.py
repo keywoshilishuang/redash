@@ -90,6 +90,7 @@ class DLC(BaseSQLQueryRunner):
 
             result = self._dlc_query(query, user)
             data = json_dumps(result)
+            logger.error("dlc query runner get data is:%s",data)
             error = None
         except (KeyboardInterrupt, InterruptException):
             logger.error("DLC Query cancelled by user.")

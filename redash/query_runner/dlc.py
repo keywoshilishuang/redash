@@ -65,10 +65,14 @@ class DLC(BaseSQLQueryRunner):
         )
 
     def get_schema(self, get_stats=False):
-        logger.error("dlc is about to get schema")
+        try:
+            logger.error("dlc is about to get schema")
 
-        dlcPioneer = self.get_dlc_executor()
-        return dlcPioneer.poll_schema_info()
+            dlcPioneer = self.get_dlc_executor()
+            return dlcPioneer.poll_schema_info()
+        except Exception as err:
+            logger.error("dlc get schema err,%s",err)
+            raise err
 
     def run_query(self, query, user):
         logger.error("DLC is about to execute query: %s user is:%s", query, user)
@@ -275,6 +279,7 @@ class dlc_executor:
             return schema.values()
 
         except Exception as err:
+            logger.error("Dlc Failed getting schema %s",err)
             raise Exception("Dlc Failed getting schema %s",err)
 
     def resultProcess(self):

@@ -68,9 +68,16 @@ class DLC(BaseSQLQueryRunner):
             # data = json_dumps(q)
             # data = '{"rows": [{"name": "_temporary_and_external_tables"}, {"name": "default"}, {"name": "stevensli"}, {"name": "system"}], "columns": [{"type": "string", "friendly_name": "name", "name": "name"}]}'
 
+            # todo
+            time.sleep(10)
+
             result = self._dlc_query(query, user)
             data = json_dumps(result)
             error = None
+        except (KeyboardInterrupt, InterruptException):
+            logger.error("DLC Query cancelled by user.")
+            data = None
+            error = "Query cancelled by user."
         except Exception as e:
             data = None
             logging.exception(e)

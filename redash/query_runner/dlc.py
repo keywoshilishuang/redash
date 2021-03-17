@@ -56,9 +56,22 @@ class DLC(BaseSQLQueryRunner):
     def enabled(cls):
         return True
 
+    def get_dlc_executor(self):
+        return dlc_executor(
+            self.configuration.get('SecretId', 'default'),
+            self.configuration.get('SecretKey', 'default'),
+            self.configuration.get('Region', 'ap-beijing'),
+            self.configuration.get('dbname', 'default'),
+        )
+
+    def get_schema(self, get_stats=False):
+        logger.error("dlc is about to get schema")
+
+        dlcPioneer = self.get_dlc_executor()
+        return dlcPioneer.poll_schema_info()
+
     def run_query(self, query, user):
         logger.error("DLC is about to execute query: %s user is:%s", query, user)
-        logger.error("stevensli test DLC.")
         if query == "":
             json_data = None
             error = "Query is empty"
@@ -88,12 +101,7 @@ class DLC(BaseSQLQueryRunner):
     def _dlc_query(self, query, user):
         logger.error("dlc is about to execute query: %s user:%s", query, user)
 
-        dlcPioneer = dlc_executor(
-            self.configuration.get('SecretId', 'default'),
-            self.configuration.get('SecretKey', 'default'),
-            self.configuration.get('Region', 'ap-beijing'),
-            self.configuration.get('dbname', 'default'),
-        )
+        dlcPioneer = self.get_dlc_executor()
 
         try:
             return dlcPioneer.execute(query)
@@ -247,9 +255,24 @@ class dlc_executor:
         try:
             tableList = self.describeTables()
 
+            schema = {}
             for table in tableList:
-                tableInfo = self.describeTable(table)
+                # table_name = ""
+                table_info = self.describeTable(table)
+                if table_info.TableBaseInfo.DatabaseName != self.database:
+                    table_name = u'{}.{}'.format(table_info.TableBaseInfo.DatabaseName,
+                                                table_info.TableBaseInfo.TableName)
+                else:
+                    table_name = table_info.TableBaseInfo.TableName
 
+                if table_name in schema:
+                    raise Exception("Dlc getting duplicate schema.")
+
+                schema[table_name] = {'name': table_name, 'columns': []}
+                for column in table_info.Columns:
+                    schema[table_name]['columns'].append(column.Name)
+
+            return schema.values()
 
         except Exception as err:
             raise Exception("Dlc Failed getting schema %s",err)

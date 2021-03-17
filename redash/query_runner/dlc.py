@@ -68,8 +68,8 @@ class DLC(BaseSQLQueryRunner):
             # data = json_dumps(q)
             # data = '{"rows": [{"name": "_temporary_and_external_tables"}, {"name": "default"}, {"name": "stevensli"}, {"name": "system"}], "columns": [{"type": "string", "friendly_name": "name", "name": "name"}]}'
 
-            # todo
-            time.sleep(10)
+            # for dev
+            # time.sleep(10)
 
             result = self._dlc_query(query, user)
             data = json_dumps(result)

@@ -163,7 +163,7 @@ class Mysql(BaseSQLQueryRunner):
         r = Result()
         t = None
         try:
-            time.sleep(10)
+            # time.sleep(10)
             connection = self._connection()
             thread_id = connection.thread_id()
             t = threading.Thread(target=self._run_query,

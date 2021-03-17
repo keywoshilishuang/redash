@@ -262,7 +262,7 @@ class dlc_executor:
             schema = {}
             for table in tableList:
                 # table_name = ""
-                table_info = self.describeTable(table)
+                table_info = self.describeTable(table.TableBaseInfo.TableName)
                 if table_info.TableBaseInfo.DatabaseName != self.database:
                     table_name = u'{}.{}'.format(table_info.TableBaseInfo.DatabaseName,
                                                 table_info.TableBaseInfo.TableName)

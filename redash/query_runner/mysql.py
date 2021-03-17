@@ -253,7 +253,7 @@ class Mysql(BaseSQLQueryRunner):
         try:
             connection = self._connection()
             cursor = connection.cursor()
-            query = "KILL %d" % (thread_id)
+            query = "KILL %s" % (thread_id)
             logging.debug(query)
             cursor.execute(query)
         except MySQLdb.Error as e:
